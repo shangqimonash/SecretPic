@@ -1,11 +1,14 @@
 {
   "manifest_version": 2,
-  "name": "Reload Tabs",
-  "description": "Reload all Chrome tabs, including the ones that are frozen by Great Suspender",
+  "name": "Secret Picture",
+  "description": "Encrypt the picture and share with the close friends",
   "version": "1.0",
-  "permissions": [],
+  "permissions": [
+    "storage"
+  ],
   "browser_action":
   {
     "default_popup": "popup.html"
-  }
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com/; object-src 'self'"
 }

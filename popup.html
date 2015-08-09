@@ -1,19 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta charset="UTF-8">
-    <title></title>
-    
+    <title>Secret Picture</title>
+
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for popup.html -->
+    <link href="popup.css", rel="stylesheet">
+
 </head>
 <body>
-    Hello
-    
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery-2.1.4.min.js"></script>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#key_management" data-toggle="tab">Key Management</a></li>
+        <li><a href="#about" data-toggle="tab">About</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="key_management">
+            <p>I'm in Section 1.</p>
+            <a href="addAccount.html">Add new key</a>
+        </div>
+        <div class="tab-pane" id="about">
+            <p>Howdy, I'm in Section 2.</p>
+        </div>
+    </div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/bootstrap.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <title>Add New Account</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for popup.html -->
+    <link href="popup.css", rel="stylesheet">
+
+</head>
+<body>
+    <div class="page-header">
+        <h3 class="text-center">Input your account</h3>
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label for="accountInput">Account</label>
+            <input class="form-control" id="accountInput" type="text" placeholder="Account">
+        </div>
+        <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <input class="form-control" id="passwordInput" type="password" placeholder="Password">
+        </div>
+        <a href="popup.html">cancel</a>
+        <button class="btn btn-default" id="buttonSubmit" type="submit" >Submit</button>
+    </form>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="addAccount.js"></script>
+    <script src="js/sjcl.js"></script>
+</body>
+</html>
