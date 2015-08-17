@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta charset="UTF-8">
+    <meta name="google-signin-client_id" content="166210708362-rg4i9e3iom3arq24851jiqmo3umlg360.apps.googleusercontent.com">
     <title>Secret Picture</title>
 
     <!-- Bootstrap core CSS -->
@@ -15,24 +16,32 @@
 <body>
 
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#key_management" data-toggle="tab">Key Management</a></li>
+        <li class="active"><a href="#sharing-list" data-toggle="tab">Sharing List</a></li>
         <li><a href="#about" data-toggle="tab">About</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="key_management">
-            <p>I'm in Section 1.</p>
-            <a href="addAccount.html">Add new key</a>
+        <div class="tab-pane active" id="sharing-list">
+            <div id = "not-sign-in" hidden>
+                <p>Not Sign In.</p>
+                <button id="signin-Button">Sign In</button>
+            </div>
+            <div id = "sign-in" hidden>
+                <p>AAA</p>
+                <button>Apply Sharing List</button>
+                <button>Sign Out</button>
+            </div>
         </div>
         <div class="tab-pane" id="about">
             <p>Howdy, I'm in Section 2.</p>
         </div>
     </div>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="js/jquery-2.1.4.min.js"></script>
-<script src="js/bootstrap.js"></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="popup.js"></script>
 
 </body>
 </html>
