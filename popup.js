@@ -42,16 +42,15 @@ function xhrWithAuth(method, url, interactive, callback){
     var retry = true;
 
     getToken();
-
+    // Try to load the Auth Token in the local
     function getToken() {
         chrome.identity.getAuthToken({'interactive': interactive}, function (token) {
-            if (chrome.runtime.lastError) {
-                changeState(STATE_START);
-                $('#not-sign-in').show();
-                $('#sign-in').hide();
-            } else {
+            if (!chrome.runtime.lastError) {
+                // Check the token is available or not
                 access_token = token;
                 requestStart();
+            } else {
+                callback(chrome.runtime.lastError);
             }
         });
     }
@@ -67,7 +66,9 @@ function xhrWithAuth(method, url, interactive, callback){
     function requestComplete(){
         if(this.status == 401 && retry){
             retry = false;
+            // If the local token expired, delete it and request a new one
             chrome.identity.removeCachedAuthToken({token: access_token}, getToken);
+            // If the extension can get a new token then back to not sign in
             changeState(STATE_START);
             $('#not-sign-in').show();
             $('#sign-in').hide();
@@ -86,6 +87,8 @@ function onUserInfoFetched(error, status, response) {
         $('#sign-in').show();
     } else {
         changeState(STATE_START);
+        $('#not-sign-in').show();
+        $('#sign-in').hide();
     }
 }
 
