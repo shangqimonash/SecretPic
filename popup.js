@@ -95,6 +95,7 @@ function onUserInfoFetched(error, status, response) {
 function populateUserInfo(user_info) {
     $Info.append( "Hello " + user_info.displayName);
     fetchImageBytes(user_info);
+    fetchCircleInfo();
 }
 
 function fetchImageBytes(user_info) {
@@ -117,6 +118,11 @@ function onImageFetched(e) {
     $Info.append(imgElem);
 }
 
+function fetchCircleInfo() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://www.googleapis.com/plus/v1/people/me');
+}
+
 $('document').ready(function(){
     xhrWithAuth('GET',
                 'https://www.googleapis.com/plus/v1/people/me',
@@ -137,7 +143,7 @@ $SignInButton.click(function () {
 
 $SignOutButton.click(function () {
     $Info.empty();
-    chrome.identity.getAuthToken({ 'interactive': false }, function(token){
+    chrome.identity.getAuthToken({'interactive': false}, function(token){
         if (!chrome.runtime.lastError) {
             // Removed the token in the local
             chrome.identity.removeCachedAuthToken({token: token}, function(){});
