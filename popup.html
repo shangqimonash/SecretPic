@@ -14,25 +14,32 @@
 
 </head>
 <body>
-
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs navbar-fixed-top">
         <li class="active"><a href="#sharing-list" data-toggle="tab">Sharing List</a></li>
         <li><a href="#about" data-toggle="tab">About</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="sharing-list">
             <div id = "not-sign-in" hidden>
-                <p>Not Sign In.</p>
-                <button id ="signin-Button">Sign In</button>
+                <p>Secret Picture requires Authentication of Google plus account.</p>
+                <button class="btn btn-default" id ="signin-Button" role="button">Sign In</button>
             </div>
             <div id = "sign-in" hidden>
-                <p id = "userInfo"></p>
-                <button>Apply Sharing List</button>
-                <button id = "signout-Button">Sign Out</button>
+                <nav class="navbar navbar-default navbar-fixed-bottom">
+                    <div class="navbar-header" id = "userInfo"></div>
+                    <button class="btn btn-default navbar-btn" id="apply-Button" role="button">Apply Sharing List</button>
+                    <button class="btn btn-default navbar-btn" id = "signout-Button" role="button">Sign Out</button>
+                </nav>
+                <div class = "checkbox" id = "friend-List">
+
+                </div>
             </div>
         </div>
         <div class="tab-pane" id="about">
-            <p>Howdy, I'm in Section 2.</p>
+            <div id ="about-Info">
+                <p>Secret Picture 1.0</p>
+            </div>
+
         </div>
     </div>
 

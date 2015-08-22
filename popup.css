@@ -1,4 +1,22 @@
 body{
     height: 480px;
-    width: 270px;
+    width: 350px;
+
+}
+
+#friend-List{
+    padding-top: 40px;
+    padding-bottom: 100px;
+}
+
+#not-sign-in{
+    padding-top: 50px;
+}
+
+#about-Info{
+    padding-top: 50px;
+}
+
+.nav-tabs{
+    background-color: #ffffff;
 }

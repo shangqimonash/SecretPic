@@ -9,6 +9,8 @@ var state = STATE_START;
 
 var $SignInButton = $('#signin-Button');
 var $Info = $('#userInfo');
+var $FriendList = $('#friend-List');
+var $ApplyButton = $('#apply-Button');
 var $SignOutButton = $('#signout-Button');
 
 function disableButton(button) {
@@ -73,16 +75,28 @@ function xhrWithAuth(method, url, interactive, callback){
             $('#not-sign-in').show();
             $('#sign-in').hide();
         } else {
-            callback(null, this.status, this.response);
+            callback(null, this.status, this.response, access_token);
         }
     }
 }
 
-function onUserInfoFetched(error, status, response) {
+function onUserInfoFetched(error, status, response, token) {
     if (!error && status == 200) {
         changeState(STATE_AUTHTOKEN_ACQUIRED);
         var user_info = JSON.parse(response);
         populateUserInfo(user_info);
+    } else {
+        changeState(STATE_START);
+        $('#not-sign-in').show();
+        $('#sign-in').hide();
+    }
+}
+
+function onCircleInfoFetched(error, status, response, token) {
+    if (!error && status == 200) {
+        changeState(STATE_AUTHTOKEN_ACQUIRED);
+        var circle_info = JSON.parse(response);
+        populateCircleInfo(circle_info, token);
         $('#not-sign-in').hide();
         $('#sign-in').show();
     } else {
@@ -93,34 +107,71 @@ function onUserInfoFetched(error, status, response) {
 }
 
 function populateUserInfo(user_info) {
-    $Info.append( "Hello " + user_info.displayName);
-    fetchImageBytes(user_info);
-    fetchCircleInfo();
+    fetchImageNames(user_info, 1);
 }
 
-function fetchImageBytes(user_info) {
+function populateCircleInfo(circle_info, token) {
+    var numItems = circle_info.totalItems;
+    for (var i = 0; i < numItems; i++) {
+        if (circle_info.items[i] !== undefined) {
+            fetchImageNames(circle_info.items[i], 0);
+        }
+    }
+    if (circle_info.nextPageToken === undefined) {
+        return;
+    } else {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://www.googleapis.com/plus/v1/people/me/people/visible?pageToken=' + circle_info.nextPageToken);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        xhr.onload = function () {
+            if (this.status === 200) {
+                var circle_info = JSON.parse(this.response);
+                populateCircleInfo(circle_info);
+            }
+        };
+        xhr.send();
+    }
+}
+
+function fetchImageNames(user_info, user) {
     if (!user_info || !user_info.image || !user_info.image.url) return;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', user_info.image.url, true);
     xhr.responseType = 'blob';
-    xhr.onload = onImageFetched;
+    if(user)
+        xhr.onload = function () {
+            if (this.status != 200) return;
+            var imgElem = document.createElement('img');
+            var objUrl = window.URL.createObjectURL(this.response);
+            imgElem.src = objUrl;
+            imgElem.onload = function() {
+                window.URL.revokeObjectURL(objUrl);
+            };
+            $Info.append(imgElem);
+            $Info.append("Hello, " + user_info.displayName);
+        };
+    else
+        xhr.onload = function(){
+            if (this.status != 200) return;
+            var imgElem = document.createElement('img');
+            var objUrl = window.URL.createObjectURL(this.response);
+            imgElem.src = objUrl;
+            imgElem.onload = function() {
+                window.URL.revokeObjectURL(objUrl);
+            };
+            $FriendList.append("<label>");
+            if(localStorage.getItem(user_info.id) !== null)
+                $FriendList.append("<input type='checkbox' value=" + user_info.id + " checked=true>");
+            else
+                $FriendList.append("<input type='checkbox' value=" + user_info.id + " checked＝false>");
+            $FriendList.append(imgElem);
+            $FriendList.append(user_info.displayName);
+            $FriendList.append("</label>");
+            $FriendList.append("</br>");
+
+
+        };
     xhr.send();
-}
-
-function onImageFetched(e) {
-    if (this.status != 200) return;
-    var imgElem = document.createElement('img');
-    var objUrl = window.URL.createObjectURL(this.response);
-    imgElem.src = objUrl;
-    imgElem.onload = function() {
-        window.URL.revokeObjectURL(objUrl);
-    };
-    $Info.append(imgElem);
-}
-
-function fetchCircleInfo() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://www.googleapis.com/plus/v1/people/me');
 }
 
 $('document').ready(function(){
@@ -128,6 +179,10 @@ $('document').ready(function(){
                 'https://www.googleapis.com/plus/v1/people/me',
                 false,
                 onUserInfoFetched);
+    xhrWithAuth('GET',
+                'https://www.googleapis.com/plus/v1/people/me/people/visible',
+                false,
+                onCircleInfoFetched);
 });
 
 $SignInButton.click(function () {
@@ -139,6 +194,25 @@ $SignInButton.click(function () {
             changeState(STATE_AUTHTOKEN_ACQUIRED);
         }
     });
+});
+
+$ApplyButton.click(function(){
+    $('#friend-List input[type="checkbox"]').each(function(){
+        var id = $(this).attr("value");
+        if($(this).prop("checked")){
+            if(!localStorage.getItem(id)){
+                localStorage[id] = 1;
+            }
+        }
+        else {
+            if(localStorage.getItem(id) > 1);
+            else{
+                localStorage.removeItem(id);
+            }
+        }
+
+    });
+    alert("New Sharing List applied.");
 });
 
 $SignOutButton.click(function () {
@@ -153,7 +227,6 @@ $SignOutButton.click(function () {
             xhr.open('GET', 'https://accounts.google.com/o/oauth2/revoke?token=' +
                 token);
             xhr.send();
-
             xhr.onload = function(){
                 changeState(STATE_START);
                 $('#not-sign-in').show();

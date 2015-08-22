@@ -6,6 +6,7 @@
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiVViOQie0vqtZJWwUkTwahAt+9PGlMtR8ffs1q0CNzJ/tZrBoKmZA+HV+Vn7Z6fJX3zgYyXozN3o4zai5yjseFbJ4HBf59seS5BGNllQPjm+Rz9vCPttCSarjnnGPxYIN5+7b/MkgIhXUOy9BVvqfqmyYl1KXR7gTN3Mmzk+vqO4EVS3+vZyhyHZhUY8ALKy/y/cKbSygcOsIJZ16M9po/8aY7PlJ1N4SBD5h86STvJ2KVGGfiLKVS3qCsiyPTd7+1tav1s+7F1bg1RVxtLOEhdg11rMM2ANWVvr5cg9OV+QkC0Ohw+TwT6H++yVPE4J2IXxdJb9OTwd9LSZ9VO5wwIDAQAB",
   "permissions": [
     "identity",
+    "storage",
     "https://accounts.google.com/*",
     "https://www.googleapis.com/*"
   ],
