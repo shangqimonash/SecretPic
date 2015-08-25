@@ -212,7 +212,7 @@ $ApplyButton.click(function(){
         }
 
     });
-    alert("New Sharing List applied.");
+    confirm("New Sharing List Applied.")
 });
 
 $SignOutButton.click(function () {
